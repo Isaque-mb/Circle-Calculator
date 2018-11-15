@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Circles Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+  </script>
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <div class="title">
+      <h1>Circles Calculator</h1>
+    </div>
+
+    <div class="calculations">
+      <input type="radio" name="calculation" value="area"><label> Area</label><br />
+      <input type="radio" name="calculation" value="circuference"><label> Circuference</label><br />
+      <input type="number" id="radius" placeholder="Enter the radius (cm)" autofocus>
+
+      <select id="dropdown">
+        <option value="unchosen">Options</option>
+        <option value="positive">Positive</option>
+        <option value="negative">Negative</option>
+        <option value="decimal">Decimal</option>
+        <option value="letter">Letter</option>
+      </select>
+    </div>
+
+
+    <div class="answer">
+      <p id="feedback"></p>
+      <p id="diameter"></p>
+      <p id="error"></p>
+    </div>
+
+
+    <div class="circles">
+      <span class="circle"></span>
+    </div>
+
+  </div>
+
+</body>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    // hides circle
+    $('.circle').hide();
+
+    $('#radius').on('keyup', () => {
+      const $radius = $("#radius").val();
+      const $diameter = ($radius * 2);
+      const $radioPick = $("input[name='calculation']:checked").val();
+      const $converted = ($radius * 37.795275591);
+
+
+      if ($radius < 0 || isNaN($radius)) {
+        $('#feedback').hide();
+        $('#diameter').hide();
+        $('#error').fadeIn();
+        $('#error').text('Please input positive integers');
+        return false;
+
+      } else if ($radioPick === "area") {
+        const $acalc = ($radius * $radius * Math.PI).toPrecision(6);
+        $('#feedback').show().text('Area = ' + $acalc + ' cm\u00B2');
+        $('#diameter').show().text('Diameter = ' + $diameter + ' cm');
+        $('.circle').css({
+          height: (2 * $converted),
+          width: (2 * $converted)
+        });
+        $('.circle').fadeIn(300);
+        $('#error').hide();
+
+      } else if ($radioPick === "circuference") {
+        const $circalc = (2 * Math.PI * $radius).toPrecision(6);
+        $('#feedback').show().text('Circunference = ' + $circalc + ' cm\u00B2');
+        $('#diameter').show().text('Diameter = ' + $diameter + ' cm');
+        $('.circle').css({
+          height: (2 * $converted),
+          width: (2 * $converted)
+        });
+        $('.circle').fadeIn(300);
+        $('#error').hide();
+
+      }
+
+    })
+    // ending event keyup
+    $('#dropdown').on('click', () => {
+
+      var CASE_POSITIVE = "positive";
+      var CASE_NEGATIVE = "negative";
+      var CASE_DECIMAL = "decimal";
+      var CASE_LETTER = "letter";
+      var testCase = $('#dropdown').val();
+
+      if (testCase === CASE_POSITIVE) {
+        $("input[type=radio][value='area']").prop('checked', true);
+        $('#radius').val(10);
+        console.log('case positive');
+      } else if (testCase === CASE_NEGATIVE) {
+        $("input[type=radio][value='area']").prop('checked', true);
+        $('#radius').val(-10);
+        console.log('case negative');
+      } else if (testCase === CASE_DECIMAL) {
+        $("input[type=radio][value='area']").prop('checked', true);
+        $('#radius').val(0.25);
+        console.log('case decimal');
+      } else if (testCase === CASE_LETTER) {
+        $("input[type=radio][value='area']").prop('checked', true);
+        $('#radius').val("foo");
+        console.log('case letter');
+      } else {
+        console.log('no valid test case, testCase : ' + testCase);
+      }
+
+    })
+
+
+
+  });
+  // end of on doc ready
+</script>
+
+
+
+</html>
